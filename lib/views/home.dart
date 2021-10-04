@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import '../view_models/image_result_grid.view_model.dart';
 import '../widgets/image_grid.widget.dart';
 
@@ -29,18 +30,18 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     curve: Curves.linear,
   ));
 
-  bool _isLoading = false;
+  final Rx<bool> _isLoading = false.obs;
 
   @override
   void initState() {
     super.initState();
 
     _imgGridViewModel.images.listen((event) {
-      _isLoading = false;
+      _isLoading.value = false;
     });
 
     _scrollController.addListener(() {
-      if (_scrollController.position.extentAfter <= MediaQuery.of(context).size.height * 1.25 && !_isLoading) {
+      if (_scrollController.position.extentAfter <= MediaQuery.of(context).size.height * 1.25 && !_isLoading.value) {
         triggerFetchImages();
       }
       if (!_animationController.isAnimating) {
@@ -54,8 +55,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 
   void triggerFetchImages() {
-    if (_keywordTextController.text.isNotEmpty && !_isLoading) {
-      _isLoading = true;
+    if (_keywordTextController.text.isNotEmpty && !_isLoading.value) {
+      _isLoading.value = true;
       _imgGridViewModel.fetchImages(_keywordTextController.text);
     }
   }

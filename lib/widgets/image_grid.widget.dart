@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import '../view_models/image_result.view_modal.dart';
 import '../view_models/image_result_grid.view_model.dart';
 import 'image_card.widget.dart';
@@ -7,12 +8,12 @@ class ImageGrid extends StatelessWidget {
   const ImageGrid({
     Key? key,
     required ImageResultGridViewModel imgGridViewModel,
-    required bool isLoading,
+    required Rx<bool> isLoading,
     required ScrollController scrollController,
   }) : _imgGridViewModel = imgGridViewModel, _isLoading = isLoading, _scrollController = scrollController, super(key: key);
 
   final ImageResultGridViewModel _imgGridViewModel;
-  final bool _isLoading;
+  final Rx<bool> _isLoading;
   final ScrollController _scrollController;
 
   @override
@@ -27,7 +28,7 @@ class ImageGrid extends StatelessWidget {
           );
         }
 
-        if (snapshot.connectionState == ConnectionState.waiting && snapshot.data!.isNotEmpty && _isLoading) {
+        if (snapshot.data!.isEmpty && _isLoading.value) {
           return const Center(
             child: CircularProgressIndicator(),
           );
