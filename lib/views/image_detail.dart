@@ -38,7 +38,7 @@ class ImageDetailPage extends StatelessWidget {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
-                        imageResultViewModel.goToWebView(context);
+                        imageResultViewModel.goToWebView();
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 12.5),
@@ -59,7 +59,7 @@ class ImageDetailPage extends StatelessWidget {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
-                        imageResultViewModel.downloadImage(context);
+                        imageResultViewModel.downloadImage();
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 12.5),

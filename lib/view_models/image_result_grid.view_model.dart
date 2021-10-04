@@ -8,10 +8,13 @@ class ImageResultGridViewModel {
   String _lastKeyword = "";
   final BehaviorSubject<List<ImageResultViewModel>> _imageSubject = BehaviorSubject();
 
+  Stream<List<ImageResultViewModel>> get images =>  _imageSubject;
+
   Future<void> fetchImages(String keyword) async {
-    if (keyword != _lastKeyword) {
+    if (keyword != _lastKeyword) { // If it is a different keyword, clear the old results and show the new search results
       _lastKeyword = keyword;
       _pageNum = 0;
+
       _imageSubject.add(await WebService.fetchImages(keyword, _pageNum));
     } else { // If it is the same keyword, add the next page to the existing list
       List<ImageResultViewModel> images = _imageSubject.hasValue ? _imageSubject.value : [];
@@ -20,9 +23,5 @@ class ImageResultGridViewModel {
       
       _imageSubject.add(images);
     }
-  }
-
-  Stream<List<ImageResultViewModel>> get images {
-    return _imageSubject;
   }
 }
